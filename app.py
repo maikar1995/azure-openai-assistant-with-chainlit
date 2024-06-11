@@ -3,7 +3,7 @@ from io import BytesIO
 from pathlib import Path
 from typing import List
 
-from openai import AsyncAssistantEventHandler, AsyncOpenAI, OpenAI
+from openai import AsyncAssistantEventHandler, AsyncAzureOpenAI, AzureOpenAI
 
 from literalai.helper import utc_now
 
@@ -12,8 +12,17 @@ from chainlit.config import config
 from chainlit.element import Element
 
 
-async_openai_client = AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-sync_openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+async_openai_client = AsyncAzureOpenAI(
+        azure_endpoint=os.getenv("OPENAI_API_BASE"),
+        api_key=os.getenv("OPENAI_API_KEY"),
+        api_version=os.getenv("OPENAI_API_VERSION"),
+)
+
+sync_openai_client = AzureOpenAI(
+        azure_endpoint=os.getenv("OPENAI_API_BASE"),
+        api_key=os.getenv("OPENAI_API_KEY"),
+        api_version=os.getenv("OPENAI_API_VERSION"),
+)
 
 assistant = sync_openai_client.beta.assistants.retrieve(
     os.environ.get("OPENAI_ASSISTANT_ID")
@@ -120,7 +129,7 @@ async def process_files(files: List[Element]):
     return [
         {
             "file_id": file_id,
-            "tools": [{"type": "code_interpreter"}, {"type": "file_search"}],
+            "tools": [{"type": "code_interpreter"}],
         }
         for file_id in file_ids
     ]
@@ -197,3 +206,5 @@ async def on_audio_end(elements: list[Element]):
     msg = cl.Message(author="You", content=transcription, elements=elements)
 
     await main(message=msg)
+
+
