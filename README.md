@@ -13,7 +13,7 @@ You can deploy your Azure OpenAI assistant with Chainlit using this template.
 
 1. Provision an Azure OpenAI resource and create a deployment for gpt-4 (Model number:- 0125). Assistants API (Preview) is only [supported in certain regions and models](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/models#assistants-preview). In addition, [only certain API versions are supported](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/assistant#api-versions)
 
-1. Update .env with the correct Azure OpenAI configuration (leave OPENAI_ASSISTANT_ID blank for now, we will create it in step 4).
+1. Update .env.sample with the correct Azure OpenAI configuration (leave OPENAI_ASSISTANT_ID blank for now, we will create it in step 4). Rename ".env.sample" to ".env".
 
 1. Install the required Python modules
 
